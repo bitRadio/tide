@@ -80,12 +80,12 @@ Configuration options can be specified as a Lua table in *.luarc.lua* file (this
 `login`: username and password will be asked when client connects.
 `torch`: Torch package will be loaded.
 `trepl`: Trepl package will be loaded, if defined.
-`globals`: displays a warning message when a global Lua variable defined
-`color`: color printing
-`timer`: display the time spent for execution of a script
-`images`: image (Torch tensors) display function will be loaded
-`keeplines`: number of lines to save for history
-`shortcuts`: list of shortcutted commands
+`globals`: displays a warning message when a global Lua variable defined.
+`color`: color printing.
+`timer`: display the time spent for execution of a script.
+`images`: image (Torch tensors) display function will be loaded.
+`keeplines`: number of lines to save for history.
+`shortcuts`: list of shortcutted commands.
 
 To disable "`login`", "`trepl`" and "`shortcuts`" options, just comment out the lines. If "`torch`" option is false then "`images`" will be ignored.
 
