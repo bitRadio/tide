@@ -116,7 +116,7 @@ For pretty printing tables use:
 	  str : "12345"
 	}
 
-![ ](https://github.com/bitRadio/Tide/jpeg/out.jpg  "screenshot")
+![ ](https://github.com/bitRadio/Tide/blob/master/jpeg/out.jpg "screenshot")
 
 ## License and Disclaimer
 Tide is MIT licensed.
