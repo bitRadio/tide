@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>tide</title>
+      <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+      <meta http-equiv="Pragma" content="no-cache" />
+      <meta http-equiv="Expires" content="0" />
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link type="text/css" rel="stylesheet" href="css/style.css" />
+      <link type="text/css" rel="stylesheet" href="css/print.css" media="print"/>
+      <link type="text/css" rel="stylesheet" href="css/ansi.css" />
+      <link rel="stylesheet" href="css/jquery-ui.min.css" />
+      <link rel="stylesheet" href="css/jquery.jspanel.css" />
+      <link rel='stylesheet' href='css/common.css'/>
+
+      <script src="lib/jquery.min.js"></script>
+      <script src="lib/jquery-ui.min.js"></script>
+      <script src="lib/jquery.jspanel.js"></script>
+      <script src="lib/jqconsole.js"></script>
+      <script src="lib/ace/ace.js"></script>
+      <script src="lib/page.js"></script>
+      <script src="lib/msgpack.js"></script>
+
+      <script src="js/luarepl.js"></script>
+      <script src="js/base.js"></script>
+      <script src="js/dom.js"></script>
+      <script src="js/trepl.js"></script>
+      <script src="js/pager.js"></script>
+      <script src="js/router.js"></script>
+   </head>
+   <body>
+      <div id="header">
+         <h1 id="title">Online Lua/Torch7 repl</h1>
+      </div>
+      <div id="panel-container">
+      </div>
+      <div id="main">
+         <div id="resize-left"></div>
+         <!-- Main wokspace area with editor and console. -->
+         <div id="content-workspace" class="page">
+            <div id="editor">
+               <div id="editor-run" class="button"></div>
+               <div id="editor-widget"></div>
+               <div id="unhide-left"></div>
+            </div>
+            <div id="resize-center"></div>
+            <div id="console">
+               <div id="replay-button" class="button">Run Session</div>
+               <div id="unhide-right"></div>
+            </div>
+         </div>
+
+         <!-- Help page. -->
+         <div id="content-help" class="page">
+           <h2 class="content-title">Help</h2>
+           <div id="help-back" class="page-close"></div>
+           <div id="help-faq">
+             <div class="help-header">Usage</div>
+             <div class="help-usage">
+               <p>Any line begining with [.] is assumed to be a shell command:</p>
+                  <pre><code>th&gt; .ls</code></pre>
+                  <pre><code>luaish.lua</code></pre>  
+                  <pre><code>lua.lua</code></pre> 
+                  <pre><code>readme.md</code></pre>
+               <p>for details please refer to <a href="https://github.com/stevedonovan/luaish" target="_blank">Luaish Shell Mode</a>.</p>
+               <p>&nbsp</p>
+               <p>For loading/saving scprits/texts files into/from code editor use:</p>
+               <pre><code>th&gt; .load filename</code></pre>
+               <pre><code>th&gt; .save filename</code></pre>
+               <small>(Code editor can be cleared by Ctrl+A:select all and then delete)</small>
+               <p>&nbsp</p>
+               <p>To display a Torch tensor as an image:</p>
+               <pre><code>th&gt; display(image.lena(), {id='img4', zoom=0.6, legend="test"})</code></pre>
+               <p>&nbsp</p>
+               <p>For pretty printing tables use:</p>
+               <pre><code>th&gt; cprint({str="12345", num=10, bool=true})</code></pre>
+               <pre><code>{</code></pre>
+               <pre><code>bool : true</code></pre>
+               <pre><code>num : 10</code></pre>
+               <pre><code>str : "12345"</code></pre>
+               <pre><code>}</code></pre>
+             </div>         
+           </div>
+           <div id="help-shortcuts">
+             <div class="help-header">Console Shortcuts</div>
+             <div id="help-shortcuts-content">
+               <div class="shortcut"><kbd>Enter</kbd></div> Evaluate the entered command.<br />
+               <div class="shortcut"><kbd>Shift<em>+</em>Enter</kbd></div> Continue to the next line.<br />
+               <div class="shortcut"><kbd>Tab</kbd></div> Completion.<br />
+               <div class="shortcut"><kbd>Up</kbd></div> Previous history item.<br />
+               <div class="shortcut"><kbd>Down</kbd></div> Next history item.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>Up</kbd></div> Move to the line above the cursor.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>Down</kbd></div> Move to the line below the cursor.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>E</kbd></div> Move to the end of the current line.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>A</kbd></div> Move to the start of the current line.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>K</kbd></div> Clears the console.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>Z</kbd></div> Cancel current prompt.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>H</kbd></div> Open this help page.<br />
+               <div class="shortcut"><kbd>Ctrl<em>+</em>D</kbd></div> Send eof.<br />
+               <div class="shortcut"><kbd>Escape</kbd></div> Close current view.<br />
+             </div>
+           </div>
+         </div>
+         <!-- About page. -->
+         <div id="content-about" class="page">
+           <h2 class="content-title">About</h2>
+           <div id="about-back" class="page-close"></div>
+              <div id="about-tide">
+                <div class="help-header">Tide</div>
+                <p>Tide is a lightweight, online Lua REPL for LuaJIT with <a href="http://torch.ch/" target="_blank">Torch</a> support. REPL routines are based on <a href="https://github.com/torch/trepl" target="_blank">Trepl</a> and <a href="https://github.com/stevedonovan/luaish" target="_blank">Luaish</a>. Front-end was modified from<a href="https://github.com/replit/repl.it" target="_blank"> Repl.it</a>.</p>
+                <p>Requirements (Server-side) :</p>
+                <ul>
+                  <li><a href="http://luajit.org/index.html" target="_blank">LuaJIT</a></li>
+                  <li><a href="https://github.com/bel2125/civetweb/blob/master/LICENSE.md" target="_blank">Civetweb</a><small>: Embedded C/C++ web server</small></li>
+                  <li><a href="https://github.com/torch/torch7/blob/master/COPYRIGHT.txt" target="_blank">Torch-7</a><small>: A scientific computing framework for LuaJIT (optional)</small></li>
+                  <li><a href="https://bitbucket.org/zserge/jsmn/wiki/Home" target="_blank">jsmn</a><small>: A minimalistic library for JSON parsing</small></li>
+                  <li><a href="https://github.com/starwing/lpath" target="_blank">lpath</a><small>: Path manipulation module for Lua</small></li>
+                  <li><a href="https://github.com/mpx/lua-cjson/blob/master/LICENSE" target="_blank">lua-cjson</a><small>: A fast JSON encoding/parsing module for Lua</small></li>
+                  <li><a href="https://github.com/fperrad/lua-MessagePack/blob/master/COPYRIGHT" target="_blank">lua-MessagePack</a><small>: Pure Lua implementation for msgpack (spec v5)</small></li>
+                  <li><a href="https://github.com/torch/image" target="_blank">image</a><small>: An Image toolbox for Torch</small></li>
+                </ul>
+
+                <!--p>&nbsp;</p-->
+                <p>Client-side Libraries :</p>
+                <ul>
+                  <li><a href=="https://jquery.com/" target="_blank">JQuery</a></li>
+                  <li><a href="https://github.com/replit/repl.it" target="_blank">repl.it</a><small>: Online REPL for 15+ languages</small></li>
+                  <li><a href="https://github.com/replit/jq-console" target="_blank">Jq-console</a><small>:  A jQuery terminal plugin written in CoffeeScript</small></li>
+                  <li><a href="http://ace.c9.io/#nav=about" target="_blank">Ace</a><small>: Code editor</small></li>
+                  <li><a href="https://github.com/visionmedia/page.js" target="_blank">Pagejs</a><small>: Tiny Express-inspired client-side router.</small></li>
+                  <li><a href="https://github.com/Flyer53/jsPanel" target="_blank">jsPanel</a><small>: A jQuery Plugin to create fancy floating panels</small></li>
+                  <li><a href="https://github.com/creationix/msgpack-js-browser" target="_blank">msgpack-js-browser</a><small>: Msgpack client-side library (updated for msgpack Spec 5)</small></li>
+                </ul>
+                <p>License :</p>
+                <p>Tide is MIT licensed. </p>
+                <p><small> Copyrigth 2015, Ali Sabri Şanal, Renan Mert Özel</small></p>
+              </div>
+         </div> 
+
+         <!-- login page -->
+         <div id="content-login" class="page show">
+           <h2 class="content-title">Log In</h2>
+           <div class="account-container">
+             <div class="description">
+               <span>Log In</span> 
+             </div>
+             <form id="login-form" target="_blank">
+               <div> <input name="username" required="required" type="text" placeholder="Email or Username" /></div>
+               <div> <input name="password" required="required" type="password" placeholder="Password" /> </div>
+               <button id="login-button" class="button" type="submit" value="login">Log In</button>
+               <!--class="submit"><input type="submit" name="commit" value="LogIn"></p-->
+             </form>
+           </div>
+         </div>
+         <div id="resize-right"></div>
+      </div>
+
+      <div id="footer">
+         <div id="links">
+            <a href="/about" id="link-about">about</a>
+            <a href="https://github.com/bitradio/tide" id="link-source-code" target="_blank">source code</a>
+            <a href="/help" id="link-help" target="_blank">help</a>
+         </div>
+      </div>
+   </body>
+</html>
