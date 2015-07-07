@@ -1,10 +1,10 @@
-# Tide
-Tide is a lightweight online Lua REPL for LuaJIT with [Torch](http://torch.ch/) support. REPL routines are based on [Trepl](https://github.com/torch/trepl) and [Luaish](https://github.com/stevedonovan/luaish). Frontend was modified from [Repl.it](https://github.com/replit/repl.it).
+#Tide
+Tide is a ligthweight, online Lua REPL for LuaJIT with [Torch](http://torch.ch/) support. REPL routines are based on [Trepl](https://github.com/torch/trepl) and [Luaish](https://github.com/stevedonovan/luaish). Frontend was modified from [Repl.it](https://github.com/replit/repl.it).
 
 
 ## Features
 * Small footprint http server [civetweb](https://github.com/bel2125/civetweb) with SSL support.
-* A naïve login (optional)
+* A naive login (optional)
 * Code editor for editing scripts.
 * REPL functions for loading and saving scripts into code editor.
 * Features from [Luaish](https://github.com/stevedonovan/luaish) and  [Trepl](https://github.com/torch/trepl):
@@ -20,77 +20,88 @@ Tide is a lightweight online Lua REPL for LuaJIT with [Torch](http://torch.ch/) 
 * Torch support (can be disabled from configuration file)
 * Image display (Torch tensors) in fancy [JsPanels](http://jspanel.de/)
 * WebSocket based communication
-* Liberal, commercial-friendly, permissive, [MIT license](http://en.wikipedia.org/wiki/MIT_License)
  
 ## Requirements (Server-side)
 * Linux (tested in Ubuntu 14.04)
 * [LuaJIT](http://luajit.org/index.html)
-* [lfs](https://keplerproject.github.io/luafilesystem/index.html)
-* [lua-cjson](http://www.kyne.com.au/~mark/software/lua-cjson.php)
-* [lua-MessagePack](http://fperrad.github.io/lua-MessagePack)
-* [luaposix](http://luaposix.github.io/luaposix)
-* [lbase64](https://github.com/LuaDist/lbase64)
-* [Torch-7](https://github.com/torch/torch7/wiki/Cheatsheet#installing-and-running-torch) (optional)
-* [image]() (optional)
+* [Civetweb](https://github.com/bel2125/civetweb/blob/master/LICENSE.md): Embedded C/C++ web server
+* [Torch-7](https://github.com/torch/torch7/blob/master/COPYRIGHT.txt): A scientific computing framework for LuaJIT (optional)
+* [jsmn](https://bitbucket.org/zserge/jsmn/wiki/Home): A minimalistic library for JSON parsing
+* [lpath](https://github.com/starwing/lpath) : Path manipulation module for Lua
+* [lua-cjson](https://github.com/mpx/lua-cjson/blob/master/LICENSE): A fast JSON encoding/parsing module for Lua
+* [lua-MessagePack](https://github.com/fperrad/lua-MessagePack/blob/master/COPYRIGHT): Pure Lua implementation for msgpack (spec v5)
+* [image](https://github.com/torch/image): An Image toolbox for Torch
 * [OpenSSL](https://www.openssl.org/)
 
 ## Client-side Libraries
-* [repl.it](https://github.com/replit/repl.it)
+* [repl.it]()
 	* [JQuery](https://jquery.com/)
 	* [jq-console](https://github.com/replit/jq-console): A jQuery terminal plugin written in CoffeeScript.
 	* [Ace](http://ace.c9.io/#nav=about): Code editor
 	* [page.js](https://github.com/visionmedia/page.js): Tiny Express-inspired client-side router.
 * [jsPanel](https://github.com/Flyer53/jsPanel): A jQuery Plugin to create highly configurable floating panels
 	* [jQuery UI](https://jqueryui.com/)
-* [msgpack-js-browser]() (updated according to msgpack Spec 5)
+* [msgpack-js-browser]() (Updated according to msgpack Spec 5)
 
 ## Installing
+LuaJIT, Torch-7 (optional), lpath, lua-cjson, lua-MessagePack, image(optional) and OpenSSL should be installed before tide installation.
+
+To install tide:
 ```bash
-git clone https://github.com/alisabri/tide.git
+git clone https://github.com/bitradio/tide.git
 cd tide
 make
 ```
-Modify and copy configuration file `.luarc.lua` to your home directory
+Modify and copy configuration file *.luarc.lua* to your home directory
 ```bash
 cp .luarc.lua ~/  
 ```
 
-## Running 
-In tide directory, execute
+##Running 
+In tide directory
 ```bash
 ./server
 ```
-The executable forks a child process. The main process serves static files whereas the child process creates a lua state, binds a websocket and initializes REPL. 
+The executable forks a child process. The main process listens on the *control_port* (default 8080) and redirects requests to the *repl_port* (default 8081) where the child process listens to. After serving static files, with a GET request for *http(s)://localhost:8081/wsserver.lua*, child process creates a lua state, establishes websocket connection and initializes REPL.
 
-After executing server, in a browser, tide can be opened at `http://localhost:8080` (port number and SSL support can be specified in *server.c* source file, default is 8080)
+After executing server, in a browser, tide can be opened at *http(s)://localhost:8080* (port numbers and SSL support can be specified in *.luarc.lua* configuration file).
 
-## Configuration
-Configuration options can be specified as a Lua table in *.luarc.lua* file (this file should be copied to the user's home directory)
+##Configuration
+Configuration options can be specified as a Lua table in *.luarc.lua* file (this file should be copied to the user's home directory).
  
-```lua
+```bash
 {
+  control_port = 8080,
+  repl_port = 8081,
+  ssl = false,
+  ssl_dir = "./ssl/server.pem",
   login = {user = "foo", password="bar"},
   torch = true,
-  trepl = {globals=false, color=false, timer=false},
-  images = true,
+  trepl = {glo,bals=false, color=true, timer=false},
+  images = false,
   keeplines = 500,
-  shortcuts = {io="io.write(", pr="print("}
+  shortcuts = {io="io.write"}
 }
 ```
-`login`: username and password will be asked when client connects.
-`torch`: Torch package will be loaded.
-`trepl`: Trepl package will be loaded, if defined.
-`globals`: displays a warning message when a global Lua variable defined.
-`color`: color printing.
-`timer`: display the time spent for execution of a script.
-`images`: image (Torch tensors) display function will be loaded.
-`keeplines`: number of lines to save for history.
-`shortcuts`: list of shortcutted commands.
+**control_port**: used to start/kill REPL process and to terminate tide server.
+**repl_port**: used for REPL's websocket connection
+**ssl**: if true *https* protocol will be used
+**ssl_dir**: directory for certification files
+**login**: username and password will be asked when client connects.
+**torch**: torch package will be loaded.
+**trepl**: if defined, Trepl package will be loaded
+>globals: displays a warning message when a global Lua variable defined
+>color: color printing
+>timer: display the time spent for execution of a script
 
-To disable "`login`", "`trepl`" and "`shortcuts`" options, just comment out the lines. If "`torch`" option is false then "`images`" will be ignored.
+**images**: image (Torch tensors) display function will be loaded
+**keeplines**: number of lines to save for history
+**shortcuts**: list of shortcutted commands
 
-## Usage
-Any line begining with ‘.’ is assumed to be a shell command:
+To disable "login", "trepl" and "shortcuts" options, just comment out the lines. If "torch" option is false then "images" will be ignored.
+
+##Usage
+Any line begining with [.] is assumed to be a shell command:
 
     th> .ls
     luaish.lua  lua.lua  readme.md
@@ -116,9 +127,16 @@ For pretty printing tables use:
 	  str : "12345"
 	}
 
+To terminate tide web server :
+
+    th> .exit
+
+
 ![ ](https://github.com/bitRadio/Tide/blob/master/jpeg/out.jpg "screenshot")
 
 ## License and Disclaimer
 Tide is MIT licensed.
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
+
+
