@@ -132,7 +132,7 @@ To terminate tide web server :
     th> .exit
 
 
-![ ](https://github.com/bitRadio/Tide/blob/master/jpeg/out.jpg "screenshot")
+![ ](https://github.com/bitRadio/tide/blob/master/jpeg/out.jpg "screenshot")
 
 ## License and Disclaimer
 Tide is MIT licensed.
