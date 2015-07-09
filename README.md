@@ -54,7 +54,7 @@ make
 ```
 Modify and copy configuration file *.luarc.lua* to your home directory
 ```bash
-cp .luarc.lua ~/  
+cp luarc.lua ~/.luarc.lua
 ```
 
 ##Running 
@@ -77,7 +77,7 @@ Configuration options can be specified as a Lua table in *.luarc.lua* file (this
   ssl_dir = "./ssl/server.pem",
   login = {user = "foo", password="bar"},
   torch = true,
-  trepl = {glo,bals=false, color=true, timer=false},
+  trepl = {globals=false, color=true, timer=false},
   images = false,
   keeplines = 500,
   shortcuts = {io="io.write"}
