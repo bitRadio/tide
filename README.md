@@ -44,7 +44,7 @@ Tide is a ligthweight, online Lua REPL for LuaJIT with [Torch](http://torch.ch/)
 * [msgpack-js-browser]() (Updated according to msgpack Spec 5)
 
 ## Installing
-LuaJIT and OpenSSL should be installed before compiling tide. Tide will require Lua 5.1 header files and libluajit-5.1. In case of having multiple version of Lua installed, change LUAJIT_INC_DIR and LUAJIT_LIB_DIR paremeters in src/Makefile appropriately.
+LuaJIT and OpenSSL should be installed before compiling tide. Tide will require Lua 5.1 header files and libluajit-5.1. In case of having multiple versions of Lua installed, change LUAJIT_INC_DIR and LUAJIT_LIB_DIR paremeters in src/Makefile appropriately.
 To run tide in minimum configuration (without torch support) following packages need to be installed 
 ```bash
 sudo luarocks install lua-messagepack
