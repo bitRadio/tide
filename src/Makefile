@@ -25,7 +25,7 @@ OBJ = server.o civetweb.o jsmn.o
 		$(CC) -c -o $@ $< $(CFLAGS) $(DEFINES)
 
 server: $(OBJ)
-	gcc -o $@ $^ $(CFLAGS) $(LIBS)
+	gcc -o $@ $^ $(LDFLAGS) $(CFLAGS) $(LIBS)
 	cp server ../
 
 .PHONY: clean
