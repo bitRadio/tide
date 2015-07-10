@@ -127,7 +127,7 @@ Any line begining with [.] is assumed to be a shell command:
 
 for details please refer to [Luaish](https://github.com/stevedonovan/luaish).
 
-For loading/saving scprits/texts files into/from code editor use:
+For loading/saving script/text files into/from code editor use:
 
     th> .load filename
     th> .save filename
