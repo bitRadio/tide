@@ -92,18 +92,29 @@ Configuration options can be specified as a Lua table in *.luarc.lua* file (this
 }
 ```
 **control_port**: used to start/kill REPL process and to terminate tide server.
-**repl_port**: used for REPL's websocket connection
-**ssl**: if true *https* protocol will be used
+
+**repl_port**: used for REPL's websocket connection.
+
+**ssl**: if true *https* protocol will be used.
+
 **ssl_dir**: directory for certification files
+
 **login**: username and password will be asked when client connects.
+
 **torch**: torch package will be loaded.
+
 **trepl**: if defined, Trepl package will be loaded
+
 >globals: displays a warning message when a global Lua variable defined
+
 >color: color printing
+
 >timer: display the time spent for execution of a script
 
 **images**: image (Torch tensors) display function will be loaded
+
 **keeplines**: number of lines to save for history
+
 **shortcuts**: list of shortcutted commands
 
 To disable "login", "trepl" and "shortcuts" options, just comment out the lines. If "torch" option is false then "images" will be ignored.
