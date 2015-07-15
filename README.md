@@ -22,7 +22,7 @@ Tide is a ligthweight, online Lua REPL for LuaJIT with [Torch](http://torch.ch/)
 * WebSocket based communication
  
 ## Requirements (Server-side)
-* Linux (tested in Ubuntu 14.04)
+* Linux (tested on Ubuntu 14.04), OS X (tested on Yosemite)
 * [LuaJIT](http://luajit.org/index.html)
 * [Civetweb](https://github.com/bel2125/civetweb/blob/master/LICENSE.md): Embedded C/C++ web server
 * [Torch-7](https://github.com/torch/torch7/blob/master/COPYRIGHT.txt): A scientific computing framework for LuaJIT (optional)
