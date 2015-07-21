@@ -60,7 +60,7 @@ git clone https://github.com/bitradio/tide.git
 cd tide
 make
 ```
-Modify and copy configuration file *.luarc.lua* to your home directory
+Modify and copy configuration file *.luarc.lua* to your home directory (if you are installing without torch support, set *torch=false* in config file).
 ```bash
 cp luarc.lua ~/.luarc.lua
 ```
