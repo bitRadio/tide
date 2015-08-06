@@ -4,7 +4,7 @@
   ssl = false,
   ssl_dir = "./ssl/server.pem",
   login = {user = "foo", password="bar"},
-  torch = true,
+  torch = false,
   trepl = {globals=false, color=true, timer=false},
   images = true,
   keeplines = 5000,
