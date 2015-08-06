@@ -8,5 +8,5 @@
   trepl = {globals=false, color=true, timer=false},
   images = true,
   keeplines = 5000,
-  shortcuts = {io="io.write"}
+  shortcuts = {wr="io.write"}
 }
